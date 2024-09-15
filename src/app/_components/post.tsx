@@ -4,8 +4,6 @@ import { useState } from "react";
 import { LatestPostQuery } from "$/lib/data-access/latest-post-query";
 import { CreatePostMutation } from "$/lib/data-access/create-post-mutation";
 
-type X = LatestPostQuery.Result;
-
 export function LatestPost() {
   const latestPostQuery = LatestPostQuery.useQuery();
 
