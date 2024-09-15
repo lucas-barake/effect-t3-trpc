@@ -1,4 +1,3 @@
-// eslint-disable-next-line @typescript-eslint/no-namespace
 export namespace ClientErrors {
   export class BadRequestError {
     public readonly _tag = "BadRequestError";

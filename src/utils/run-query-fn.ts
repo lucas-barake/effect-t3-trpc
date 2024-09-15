@@ -5,7 +5,7 @@ export const ClientRuntime = ManagedRuntime.make(Layer.empty);
 
 const createEffectFromResult = <Ok, Err>(
   resultPromise: () => Promise<Result<Ok, Err>>,
-): Effect.Effect<Ok, Err | Cause.UnknownException, never> =>
+): Effect.Effect<Ok, Err | Cause.UnknownException> =>
   Effect.tryPromise(() => resultPromise()).pipe(
     Effect.flatMap(
       Result.match({
@@ -19,8 +19,8 @@ export const createQueryFn =
   <Ok, Err>(
     queryFn: () => Promise<Result<Ok, Err>>,
     effectPipeline: (
-      effect: Effect.Effect<Ok, Err | Cause.UnknownException, never>,
-    ) => Effect.Effect<Ok, Err | Cause.UnknownException, never> = identity,
+      effect: Effect.Effect<Ok, Err | Cause.UnknownException>,
+    ) => Effect.Effect<Ok, Err | Cause.UnknownException> = identity,
   ) =>
   () =>
     createEffectFromResult(queryFn).pipe(
@@ -31,8 +31,8 @@ export const createQueryFn =
 export const createMutationFn = <Ok, Err>(
   mutateFn: () => Promise<Result<Ok, Err>>,
   effectPipeline: (
-    effect: Effect.Effect<Ok, Err | Cause.UnknownException, never>,
-  ) => Effect.Effect<Ok, Err | Cause.UnknownException, never> = identity,
+    effect: Effect.Effect<Ok, Err | Cause.UnknownException>,
+  ) => Effect.Effect<Ok, Err | Cause.UnknownException> = identity,
 ): Promise<Ok> =>
   createEffectFromResult(mutateFn).pipe(
     effectPipeline,

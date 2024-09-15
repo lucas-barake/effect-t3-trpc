@@ -48,10 +48,11 @@ export const postRouter = createTRPCRouter({
 
       return Result.ok(posts ?? null);
     }).pipe(
-      Effect.catchTag("SomeError", () =>
-        Result.succeedError(new ClientErrors.BadRequestError()),
-      ),
       Effect.withSpan("postRouter.getLatest"),
+      Effect.catchTags({
+        SomeError: () =>
+          Result.succeedError(new ClientErrors.BadRequestError()),
+      }),
       TRPCContext.provide(ctx),
       ServerRuntime.runPromise,
     );
